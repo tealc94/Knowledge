@@ -4,9 +4,27 @@
 
 {% block body %}
 
-<div class="example-wrapper">
-    <h1>Ma page d'acceuil</h1>
-
-
+<div class="">
+    {% for theme in themes %}
+    <div class="mb-4">       
+        <h3> {{ theme.NameTheme }} </h3>
+        <div class="row mx-auto">
+            {% for oneCursus in theme.cursuses %} 
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">                                        
+                        <p>{{ oneCursus.NameCursus }}</p>
+                        <p>Tarif : {{ oneCursus.Price }} €</p>
+                        <a href="#" class="btn btn-primary">Découvrir</a>
+                        <button href="#" class="btn btn-primary">Panier</button>
+                    </div>                       
+                </div>    
+            </div>
+            {% endfor %}
+        </div>        
+    </div>      
+    {% endfor %}
 </div>
 {% endblock %}
+
+

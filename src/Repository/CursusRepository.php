@@ -2,39 +2,43 @@
 
 namespace App\Repository;
 
-use App\Entity\ListOfThemes;
+use App\Entity\Cursus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ListOfThemes>
+ * @extends ServiceEntityRepository<Cursus>
  */
-class ListOfThemesRepository extends ServiceEntityRepository
+class CursusRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ListOfThemes::class);
+        parent::__construct($registry, Cursus::class);
     }
-
+   
+    public function ListCursus()
+    {
+        return $this->findAll();        
+    }
     //    /**
-    //     * @return ListOfThemes[] Returns an array of ListOfThemes objects
+    //     * @return Cursus[] Returns an array of Cursus objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
+    //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ListOfThemes
+    //    public function findOneBySomeField($value): ?Cursus
     //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

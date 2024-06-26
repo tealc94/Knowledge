@@ -12,45 +12,30 @@ class Lessons
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idLesson = null;
+    private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $nbrLesson = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $Title = null;
+    #[ORM\Column(length: 255)]
+    private ?string $NameLesson = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $Price = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
-    private ?ListOfThemes $idListLesson = null;
+    private ?Cursus $idNameCursus = null;
 
-    public function getIdLesson(): ?int
+    public function getId(): ?int
     {
-        return $this->idLesson;
+        return $this->id;
     }
 
-    public function getNbrLesson(): ?int
+    public function getNameLesson(): ?string
     {
-        return $this->nbrLesson;
+        return $this->NameLesson;
     }
 
-    public function setNbrLesson(int $nbrLesson): static
+    public function setNameLesson(string $NameLesson): static
     {
-        $this->nbrLesson = $nbrLesson;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->Title;
-    }
-
-    public function setTitle(string $Title): static
-    {
-        $this->Title = $Title;
+        $this->NameLesson = $NameLesson;
 
         return $this;
     }
@@ -67,15 +52,20 @@ class Lessons
         return $this;
     }
 
-    public function getIdListLesson(): ?ListOfThemes
+    public function getIdNameCursus(): ?Cursus
     {
-        return $this->idListLesson;
+        return $this->idNameCursus;
     }
 
-    public function setIdListLesson(?ListOfThemes $idListLesson): static
+    public function setIdNameCursus(?Cursus $idNameCursus): static
     {
-        $this->idListLesson = $idListLesson;
+        $this->idNameCursus = $idNameCursus;
 
         return $this;
+    }  
+    
+    public function __toString(): string
+    {
+        return $this->NameLesson ?? '';
     }
 }

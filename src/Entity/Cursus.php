@@ -2,33 +2,33 @@
 
 namespace App\Entity;
 
-use App\Repository\ListOfThemesRepository;
+use App\Repository\CursusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ListOfThemesRepository::class)]
-class ListOfThemes
+#[ORM\Entity(repositoryClass: CursusRepository::class)]
+class Cursus
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Themes = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $Cursus = null;
+    #[ORM\Column(length: 255)]
+    private ?string $NameCursus = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $Price = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cursuses', cascade: ['remove'])]
+    private ?Themes $idNameTheme = null;
+
     /**
      * @var Collection<int, Lessons>
      */
-    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idListLesson')]
+    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idNameCursus', cascade: ['remove'])]
     private Collection $lessons;
 
     public function __construct()
@@ -41,26 +41,14 @@ class ListOfThemes
         return $this->id;
     }
 
-    public function getThemes(): ?string
+    public function getNameCursus(): ?string
     {
-        return $this->Themes;
+        return $this->NameCursus;
     }
 
-    public function setThemes(string $Themes): static
+    public function setNameCursus(string $NameCursus): static
     {
-        $this->Themes = $Themes;
-
-        return $this;
-    }
-
-    public function getCursus(): ?string
-    {
-        return $this->Cursus;
-    }
-
-    public function setCursus(string $Cursus): static
-    {
-        $this->Cursus = $Cursus;
+        $this->NameCursus = $NameCursus;
 
         return $this;
     }
@@ -77,6 +65,18 @@ class ListOfThemes
         return $this;
     }
 
+    public function getIdNameTheme(): ?Themes
+    {
+        return $this->idNameTheme;
+    }
+
+    public function setIdNameTheme(?Themes $idNameTheme): static
+    {
+        $this->idNameTheme = $idNameTheme;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Lessons>
      */
@@ -89,7 +89,7 @@ class ListOfThemes
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons->add($lesson);
-            $lesson->setIdListLesson($this);
+            $lesson->setIdNameCursus($this);
         }
 
         return $this;
@@ -99,11 +99,16 @@ class ListOfThemes
     {
         if ($this->lessons->removeElement($lesson)) {
             // set the owning side to null (unless already changed)
-            if ($lesson->getIdListLesson() === $this) {
-                $lesson->setIdListLesson(null);
+            if ($lesson->getIdNameCursus() === $this) {
+                $lesson->setIdNameCursus(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->NameCursus ?? '';   
     }
 }
