@@ -48,10 +48,19 @@
 
 *{
     color: #00497c;
+    
 }
 body{
-    font-family:'Comic Sans MS', Arial, sans-serif;
-    
+    font-family:'Comic Sans MS', Arial, sans-serif;    
+    background-color: #f1f8fc;
+}
+.container-home{
+    width: 1300px;
+    margin: 0 auto;
+}
+.container-detail{
+    width: 1300px;
+    margin: 0 auto;
 }
 
 .card_register{

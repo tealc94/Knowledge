@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du Cursus{% endblock %}
+
+{% block body %}
+
+<div class="container-detail">
+    <h1>Détail {{ cursus.NameCursus }} </h1>
+    <div class="mb-4">
+        <div class="row mx-auto">
+            {% for lesson in lessons %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body"> 
+                        <p>{{ lesson.NameLesson }}</p>
+                        <p>Tarif :{{ lesson.price }}€</p>
+                        <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>   
+</div>
+
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;///
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -15,7 +16,7 @@ class EmailVerifier
     public function __construct(
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -24,7 +25,8 @@ class EmailVerifier
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             (string) $user->getId(),
-            $user->getEmail()
+            $user->getEmail(),
+            ['id' => $user->getId()] 
         );
 
         $context = $email->getContext();
@@ -34,7 +36,7 @@ class EmailVerifier
 
         $email->context($context);
 
-        $this->mailer->send($email);
+        $this->mailer->send($email);  
     }
 
     /**
@@ -47,6 +49,6 @@ class EmailVerifier
         $user->setVerified(true);
 
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->entityManager->flush();        
     }
 }

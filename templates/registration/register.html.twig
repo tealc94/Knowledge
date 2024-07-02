@@ -9,18 +9,14 @@
 
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
+    {#{{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {#{{ form_row(registrationForm.agreeTerms) }}#}
-
+        {{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
         <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }} 
+    {{ form_end(registrationForm) }}  #}
 
 
-   {# <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center">
         <div class="card card_register" style="width: 18rem;">
             {{ form_start(registrationForm) }}
                 <div class="card-body">
@@ -38,6 +34,8 @@
                 </div>       
                 <div class="card-body">
                     <button type="submit" class="btn btn-primary">Créer un compte</button>
+                    <br>
+                    <a href="/reset-password">Mot de passe oublié ?</a>
                 </div>
             {{ form_end(registrationForm) }}  
                 <hr>
@@ -46,5 +44,5 @@
                     <a href="/login" class="btn btn-primary">Se connecter</a>
                 </div>
         </div>
-    </div>#}
+    </div>
 {% endblock %}

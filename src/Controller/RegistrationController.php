@@ -15,7 +15,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-
 class RegistrationController extends AbstractController
 {
     public function __construct(private EmailVerifier $emailVerifier)
@@ -44,7 +43,7 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('tealc972@hotmail.com', 'Knowledge'))
+                    ->from(new Address('knowledge.noreply080@gmail.com', 'Knowledge'))
                     ->to($user->getEmail())
                     ->subject('Veuillez confirmer votre adresse électronique')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -61,13 +60,22 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, EntityManagerInterface $em): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');      
+        $userId = $request->get('id');
+        if(!$userId){
+            throw new \Exception('Aucun ID utilisateur fourni pour la vérification de l\'email.');
+        }
+        $user = $em->getRepository(User::class)->find($userId);
+        if(!$user){
+            throw new \Exception('Utilisateur non trouvé.');
+        }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
+
+        // validate email confirmation link, sets Uaser::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
@@ -75,8 +83,8 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Votre adresse mail a bien été vérifiée.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 }

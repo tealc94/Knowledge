@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="">
+<div class="container-home">
     {% for theme in themes %}
     <div class="mb-4">       
         <h3> {{ theme.NameTheme }} </h3>
@@ -15,8 +15,8 @@
                     <div class="card-body">                                        
                         <p>{{ oneCursus.NameCursus }}</p>
                         <p>Tarif : {{ oneCursus.Price }} €</p>
-                        <a href="#" class="btn btn-primary">Découvrir</a>
-                        <button href="#" class="btn btn-primary">Panier</button>
+                        <a href="{{ path('app_lesson_detail', {'id': oneCursus.id}) }}" class="btn btn-primary">Découvrir</a>
+                        <a href="{{ path('app_cart') }}" class="btn btn-primary">Panier</a>
                     </div>                       
                 </div>    
             </div>
