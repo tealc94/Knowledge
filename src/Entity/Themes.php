@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\ThemesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: ThemesRepository::class)]
 class Themes
@@ -24,9 +26,13 @@ class Themes
     #[ORM\OneToMany(targetEntity: Cursus::class, mappedBy: 'idNameTheme')]
     private Collection $cursuses;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created_at = null;
+    
     public function __construct()
     {
         $this->cursuses = new ArrayCollection();
+        $this->created_at = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -79,5 +85,17 @@ class Themes
     public function __toString(): string
     {
         return $this->NameTheme ?? '';   
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
     }
 }

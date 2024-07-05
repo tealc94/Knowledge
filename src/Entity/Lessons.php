@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LessonsRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +23,14 @@ class Lessons
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     private ?Cursus $idNameCursus = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created_at = null;
+
+    public function __construct()
+    {
+        $this->created_at = new DateTime('now');
+    }
 
     public function getId(): ?int
     {
@@ -67,5 +76,17 @@ class Lessons
     public function __toString(): string
     {
         return $this->NameLesson ?? '';
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
     }
 }

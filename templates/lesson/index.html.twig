@@ -14,7 +14,9 @@
                     <div class="card-body"> 
                         <p>{{ lesson.NameLesson }}</p>
                         <p>Tarif :{{ lesson.price }}€</p>
-                        <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

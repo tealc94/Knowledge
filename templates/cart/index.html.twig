@@ -5,10 +5,30 @@
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Panier</h1>
 
-   <pre>
-    {{ dump(cart) }}
-   </pre>
+    <div class="container-btn"> 
+        {#<input class="total-price" value="TOTAL : {{ total }} €"></input>  #}         
+        <div class="left-div">
+            <form action="{{ path('app_checkout') }}" method="post" id="payment-form">       
+                {% if cursus|length == 0 %}
+                    <p class="text-panier">Votre panier est vide.</p>
+                {% else %}
+                    <ul>
+                        {% for item in cursus %}
+                        <div class="d-flex">
+                            <div class="container-panier">
+                                <p>{{ item.NameCursus }} - {{ item.Price }} €</p>
+                                <a href='{{ path('app_remove', {'id':item.id }) }}' class="btn btn-danger"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>           
+                            </div>                
+                        </div>                
+                        {% endfor %}
+                    </ul>
+                <button id="subit" class="btn btn-danger btn-achat">FINALISER MA COMMANDE</button>
+            </form>
+            <a href="{{ path('app_home') }}" class="btn btn-primary">CONTINUER MES ACHATS</a>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

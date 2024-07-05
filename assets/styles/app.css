@@ -47,8 +47,7 @@
 }
 
 *{
-    color: #00497c;
-    
+    color: #00497c;    
 }
 body{
     font-family:'Comic Sans MS', Arial, sans-serif;    
@@ -61,6 +60,19 @@ body{
 .container-detail{
     width: 1300px;
     margin: 0 auto;
+}
+.container-panier{
+    display: flex;
+    width: 800px;
+    align-items: center;
+    border: 1px solid #D2D2D2;
+    margin: 0 auto;
+    border-radius: 10px;
+    padding-left: 5px;
+    gap: 5px;
+}
+.text-panier{
+    text-align: center;
 }
 
 .card_register{

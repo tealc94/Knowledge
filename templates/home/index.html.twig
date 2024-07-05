@@ -16,7 +16,9 @@
                         <p>{{ oneCursus.NameCursus }}</p>
                         <p>Tarif : {{ oneCursus.Price }} €</p>
                         <a href="{{ path('app_lesson_detail', {'id': oneCursus.id}) }}" class="btn btn-primary">Découvrir</a>
-                        <a href="{{ path('app_cart') }}" class="btn btn-primary">Panier</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_cart', {'id': oneCursus.id}) }}" class="btn btn-primary">Panier</a>
+                        {% endif %}
                     </div>                       
                 </div>    
             </div>

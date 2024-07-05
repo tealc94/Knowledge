@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CursusRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -31,9 +32,13 @@ class Cursus
     #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idNameCursus', cascade: ['remove'])]
     private Collection $lessons;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created_at = null;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
+        $this->created_at = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -110,5 +115,17 @@ class Cursus
     public function __toString(): string
     {
         return $this->NameCursus ?? '';   
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
     }
 }

@@ -13,17 +13,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class LessonController extends AbstractController
 {
     #[Route('/lesson/{id}', name: 'app_lesson_detail')]
-    //public function detail($id, LessonsRepository $lessonRepository): Response
     public function detail(Cursus $cursus): Response
     {
         $lessons = $cursus->getLessons();
-        /*if(!$lesson){
-            throw $this->createNotFoundException("La leçon de ce cursus n'existe pas");
-        }*/
 
         return $this->render('lesson/index.html.twig', [
-            //'controller_name' => 'LessonController',
-            //'lessonId' => $id,
             'cursus' => $cursus,
             'lessons' => $lessons,
         ]);
@@ -37,9 +31,11 @@ class LessonController extends AbstractController
             'lesson' => $lesson,
             'cursus' => $cursus,
         ];
-
+        
         $session->set('cart', $cart);
 
         return $this->redirectToRoute('app_cart');
     }
+
+    
 }

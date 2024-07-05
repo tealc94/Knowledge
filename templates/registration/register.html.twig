@@ -9,13 +9,6 @@
 
     {{ form_errors(registrationForm) }}
 
-    {#{{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}  #}
-
-
     <div class="d-flex justify-content-center align-items-center">
         <div class="card card_register" style="width: 18rem;">
             {{ form_start(registrationForm) }}
@@ -24,6 +17,8 @@
                 </div>
                 <hr>
                 <div>             
+                    {{ form_label(registrationForm.username, "Nom :", {'label_attr':{'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
 
                     {{ form_label(registrationForm.email, "Adresse mail :", {'label_attr':{'class': 'form-label'}}) }}
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
