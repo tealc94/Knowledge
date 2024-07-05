@@ -6,9 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -57,16 +55,30 @@ class CartController extends AbstractController
             'success_url' => $this->generateUrl('payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
-        //dd($checkout_session);
-        //dd($checkout_session->url);        
-        return new RedirectResponse($checkout_session->url,303);
- 
 
+        // Store the checkout session URL in the Symfony session
+        $session->set('checkout_url', $checkout_session->url);
+        // Redirection to intermediate route
+        return $this->redirectToRoute('checkout_redirect');
+    }
+
+    #[Route('/checkout/redirect', name: 'checkout_redirect')]
+    public function checkoutRedirect(SessionInterface $session): Response
+    {
+        // Retrieve the session URL
+        $checkoutUrl = $session->get('checkout_url');
+
+        // Return the template with the JavaScript redirection
+        return $this->render('redirect.html.twig', [
+            'checkout_url' => $checkoutUrl,
+        ]);
     }
 
     #[Route('/payment/success', name: 'app_success')]
-    public function success()
+    public function success(SessionInterface $session): Response
     {
+        //empty the basket
+        $session->remove('cursus');
         return $this->render("payment/success.html.twig");
     }
 

@@ -23,9 +23,10 @@
                         </div>                
                         {% endfor %}
                     </ul>
-                <button id="subit" class="btn btn-danger btn-achat">FINALISER MA COMMANDE</button>
+                <a href="{{ path('app_home') }}" class="btn btn-primary">CONTINUER MES ACHATS</a>
+                <button id="subit" class="btn btn-danger btn-achat">FINALISER MA COMMANDE</button>                
             </form>
-            <a href="{{ path('app_home') }}" class="btn btn-primary">CONTINUER MES ACHATS</a>
+            
         </div>
     </div>
     {% endif %}
