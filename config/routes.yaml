@@ -13,7 +13,7 @@ app_verify_email:
     controller: App\Controller\RegistrationController::verifyUserEmail
 
 app_lesson_detail:
-    path: /lesson/{id}
+    path: /lesson/{cursus}
     controller: App\Controller\LessonController::detail
 
 payment_success:

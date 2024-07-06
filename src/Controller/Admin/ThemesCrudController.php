@@ -13,7 +13,6 @@ class ThemesCrudController extends AbstractCrudController
     {
         return Themes::class;
     }
-
     
     public function configureFields(string $pageName): iterable
     {

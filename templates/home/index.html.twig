@@ -6,25 +6,25 @@
 
 <div class="container-home">
     {% for theme in themes %}
-    <div class="mb-4">       
-        <h3> {{ theme.NameTheme }} </h3>
-        <div class="row mx-auto">
-            {% for oneCursus in theme.cursuses %} 
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-body">                                        
-                        <p>{{ oneCursus.NameCursus }}</p>
-                        <p>Tarif : {{ oneCursus.Price }} €</p>
-                        <a href="{{ path('app_lesson_detail', {'id': oneCursus.id}) }}" class="btn btn-primary">Découvrir</a>
-                        {% if is_granted('ROLE_USER') %}
-                            <a href="{{ path('app_cart', {'id': oneCursus.id}) }}" class="btn btn-primary">Panier</a>
-                        {% endif %}
-                    </div>                       
-                </div>    
-            </div>
-            {% endfor %}
-        </div>        
-    </div>      
+        <div class="mb-4">       
+            <h3> {{ theme.NameTheme }} </h3>
+            <div class="row mx-auto">
+                {% for oneCursus in theme.cursuses %} 
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">                                        
+                                <p>{{ oneCursus.NameCursus }}</p>
+                                <p>Tarif : {{ oneCursus.Price }} €</p>
+                                <a href="{{ path('app_lesson_detail', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Découvrir</a>
+                                {% if is_granted('ROLE_USER') %}
+                                    <a href="{{ path('app_cart', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Panier</a>
+                                {% endif %}
+                            </div>                       
+                        </div>    
+                    </div>
+                {% endfor %}
+            </div>        
+        </div>      
     {% endfor %}
 </div>
 {% endblock %}

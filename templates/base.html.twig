@@ -30,9 +30,11 @@
                                 <a class="nav-link" href="{{ path('admin') }}">Back Office</a>
                             </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_cart') }}">Panier</a>
-                        </li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_cart') }}">Panier</a>
+                            </li>
+                        {% endif %}
                         {% if is_granted('ROLE_USER') %}
 
                         {% else %}

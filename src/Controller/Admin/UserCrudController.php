@@ -25,7 +25,8 @@ class UserCrudController extends AbstractCrudController
             TextField::new('username')
                 ->setLabel('Nom'),
             BooleanField::new('is_verified')
-                ->setLabel('Vérifié'),
+                ->setLabel('Vérifié')
+                ->onlyWhenUpdating(),
             ChoiceField::new('roles')
                 ->setChoices([
                     'ROLE_ADMIN' => 'ROLE_ADMIN',

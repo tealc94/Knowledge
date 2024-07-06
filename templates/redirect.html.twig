@@ -7,7 +7,7 @@
     <p>Redirection vers Stripe, veuillez patienter...</p>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
-            // Décodez l'URL avant la redirection
+            //Decode the URL before redirecting
             var encodedUrl = '{{ checkout_url }}';
             var decodedUrl = decodeURIComponent(encodedUrl);
             window.location.href = decodedUrl;

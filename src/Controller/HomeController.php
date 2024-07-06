@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Cursus;
+use App\Entity\Lessons;
 use App\Repository\ThemesRepository;
-use App\Repository\CursusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(ThemesRepository $themesRepository, CursusRepository $cursusRepository): Response
+    public function index(ThemesRepository $themesRepository): Response
     {
         $themes = $themesRepository->ListThemes();
         return $this->render('home/index.html.twig', [
@@ -27,33 +27,62 @@ class HomeController extends AbstractController
     #[Route('/cart', name: 'app_cart')]
     public function viewCart(Request $request, EntityManagerInterface $em, SessionInterface $session): Response
     {
-        $id = $request->query->get('id');
-        if ($id) {
-            $cursusAdd = $em->getRepository(Cursus::class)->find($id);
-            if(!$cursusAdd){
-                throw $this->createNotFoundException("Le cursus n'existe pas");
-            }
+        $cursusId = $request->query->get('cursus');
+        $lessonId = $request->query->get('lesson');
+        
+        $cursus = null;
+        $lesson = null;
 
-            $cursus = $session->get('cursus', []);
-            $cursus[$id] = $cursusAdd;
-            $session->set('cursus', $cursus);
+        if($cursusId){
+            $cursus = $em->getRepository(Cursus::class)->find($cursusId);
+        }
+        if($lessonId){
+            $lesson = $em->getRepository(Lessons::class)->find($lessonId);           
+        }
+        
+        $items = $session->get('cart', []);  
+            
+        if($cursus && $lesson){            
+            // Browse the items in the basket to find the corresponding course.
+            $found = false;
+            foreach ($items as &$item) {
+                if ($item['cursus']->getId() === $cursus->getId()) {
+                    // Add lesson to existing curriculum in basket
+                    $item['lesson'] = $lesson;
+                    $found = true;
+                    break; // Exit the loop as soon as the element is found
+                }
+            }
+        // If the curriculum is not already in the basket, add it with the lesson.
+        if (!$found) {
+            $items[] = ['cursus' => $cursus, 'lesson' => $lesson];
+        }
+        }elseif ($cursus) {
+            $items[]= ['cursus' => $cursus, 'lesson' => null];  
         }
 
-        $cursus = $session->get('cursus', []);
+        $session->set('cart', $items);
         return $this->render('cart/index.html.twig', [
-            'cursus' => $cursus,
-        ]);
+            'items' => $items,
+        ]);        
     }
-
+    
     #[Route('/cart/remove/{id}', name: 'app_remove')]
     public function removeCart(int $id, SessionInterface $session): Response
     {
-        $cursus = $session->get('cursus', []);
+        $items = $session->get('cart', []);
 
-        if(isset($cursus[$id])){
-            unset($cursus[$id]);
-            $session->set('cursus', $cursus);
+        // Search for item in basket
+        foreach ($items as $key => $item) {
+            if ($item['cursus']->getId() === $id) {
+                unset($items[$key]);
+                break; // Exits loop as soon as element is found
+            }
         }
+
+        // Update session with new basket
+        $session->set('cart', $items);
+
         return $this->redirectToRoute('app_cart');
     }
 }

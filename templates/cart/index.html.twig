@@ -5,31 +5,48 @@
 {% block body %}
 
 <div class="example-wrapper">
-
-    <div class="container-btn"> 
-        {#<input class="total-price" value="TOTAL : {{ total }} €"></input>  #}         
+    <div class=""> 
+        {% set total = 0 %} 
+        {% set itemTotal = 0 %}                 
         <div class="left-div">
             <form action="{{ path('app_checkout') }}" method="post" id="payment-form">       
-                {% if cursus|length == 0 %}
+                {% if items|length == 0 %}
                     <p class="text-panier">Votre panier est vide.</p>
                 {% else %}
-                    <ul>
-                        {% for item in cursus %}
-                        <div class="d-flex">
+                    <ul>                    
+                        {% for item in items %} 
                             <div class="container-panier">
-                                <p>{{ item.NameCursus }} - {{ item.Price }} €</p>
-                                <a href='{{ path('app_remove', {'id':item.id }) }}' class="btn btn-danger"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>           
-                            </div>                
-                        </div>                
-                        {% endfor %}
+                                <div class="">
+                                    {% if item.lesson %}
+                                        {{ item.cursus.NameCursus }} - <br>
+                                        {{ item.lesson.NameLesson }} - <br>
+                                        {{ item.lesson.Price }} €
+                                        {% set itemTotal = item.lesson.Price %}
+                                    {% else %}
+                                        {{ item.cursus.NameCursus }} - <br>
+                                        {{ item.cursus.Price }} €
+                                        {% set itemTotal = item.cursus.Price %}
+                                    {% endif %} 
+                                </div> 
+                                <div class="btn-right">
+                                    <a href='{{ path('app_remove', {'id':item.cursus.id }) }}' class="btn btn-danger"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>    
+                                </div>         
+                            </div>  
+                            {% set total = total + itemTotal %}    
+                        {% endfor %} 
+                        <div class="container-btn">
+                            <div>                                
+                                <input class="total-price" value="TOTAL : {{ total }} €"></input>
+                            </div>
+                            <div>
+                                <a href="{{ path('app_home') }}" class="btn btn-primary">CONTINUER MES ACHATS</a>
+                                <button id="subit" class="btn btn-danger btn-achat">FINALISER MA COMMANDE</button> 
+                            </div>
+                        </div>                       
                     </ul>
-                <a href="{{ path('app_home') }}" class="btn btn-primary">CONTINUER MES ACHATS</a>
-                <button id="subit" class="btn btn-danger btn-achat">FINALISER MA COMMANDE</button>                
-            </form>
-            
+                {% endif %}              
+            </form>            
         </div>
     </div>
-    {% endif %}
-
 </div>
 {% endblock %}

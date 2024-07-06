@@ -61,8 +61,7 @@ class RegistrationController extends AbstractController
 
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, EntityManagerInterface $em): Response
-    {
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');      
+    { 
         $userId = $request->get('id');
         if(!$userId){
             throw new \Exception('Aucun ID utilisateur fourni pour la vérification de l\'email.');

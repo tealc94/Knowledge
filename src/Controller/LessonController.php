@@ -7,12 +7,11 @@ use App\Entity\Lessons;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\LessonsRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LessonController extends AbstractController
 {
-    #[Route('/lesson/{id}', name: 'app_lesson_detail')]
+    #[Route('/lesson/{cursus}', name: 'app_lesson_detail')]
     public function detail(Cursus $cursus): Response
     {
         $lessons = $cursus->getLessons();
@@ -35,7 +34,5 @@ class LessonController extends AbstractController
         $session->set('cart', $cart);
 
         return $this->redirectToRoute('app_cart');
-    }
-
-    
+    }    
 }

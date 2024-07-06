@@ -33,21 +33,35 @@ class CartController extends AbstractController
     {
         Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
-        $items = $session->get('cursus', []);
+        $items = $session->get('cart', []);
         $lineItems = [];
-
-        foreach($items as $item){
-            $lineItems[] = [
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => $item->getNameCursus(),
+       
+        foreach($items as $item){          
+            if($item['lesson']){
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $item['lesson']->getNameLesson(),
+                        ],
+                        'unit_amount' => $item['lesson']->getPrice() * 100,
                     ],
-                    'unit_amount' => $item->getPrice() * 100,
-                ],
-                'quantity' => 1,
-            ];
+                    'quantity' => 1,
+                ]; 
+            }elseif($item['cursus']){
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $item['cursus']->getNameCursus(),
+                        ],
+                        'unit_amount' => $item['cursus']->getPrice() * 100,
+                    ],
+                    'quantity' => 1,
+                ];
+            }
         }
+
         $checkout_session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
@@ -78,7 +92,7 @@ class CartController extends AbstractController
     public function success(SessionInterface $session): Response
     {
         //empty the basket
-        $session->remove('cursus');
+        $session->remove('cart');
         return $this->render("payment/success.html.twig");
     }
 

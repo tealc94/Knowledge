@@ -15,7 +15,6 @@ class LessonsCrudController extends AbstractCrudController
     {
         return Lessons::class;
     }
-
     
     public function configureFields(string $pageName): iterable
     {
