@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CursusRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Cursus
 {
     #[ORM\Id]
@@ -35,10 +36,20 @@ class Cursus
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updated_at = null;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
         $this->created_at = new DateTime('now');
+        $this->updated_at = new DateTime('now');
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate():void
+    {
+        $this->updated_at = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -125,6 +136,18 @@ class Cursus
     public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): static
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

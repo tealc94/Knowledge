@@ -8,12 +8,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return User::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle('index', 'Utilisateurs');
     }
     
     public function configureFields(string $pageName): iterable
@@ -32,7 +40,15 @@ class UserCrudController extends AbstractCrudController
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                 ])
                 ->allowMultipleChoices()
-                ->renderExpanded()
+                ->renderExpanded(),
+            DateTimeField::new('created_at')
+                ->setLabel('Date de création')
+                ->setFormat('dd MMMM yyyy HH:mm:ss')
+                ->onlyOnIndex(),
+            DateTimeField::new('updated_at')
+                ->setLabel('Date de mise à jour')
+                ->setFormat('dd MMMM yyyy HH:mm:ss')
+                ->onlyOnIndex(),
         ];
     }
 }

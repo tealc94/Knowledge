@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
 #[ORM\Entity(repositoryClass: ThemesRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Themes
 {
     #[ORM\Id]
@@ -28,11 +29,24 @@ class Themes
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $created_by = null;
     
     public function __construct()
     {
         $this->cursuses = new ArrayCollection();
         $this->created_at = new DateTime('now');
+        $this->updated_at = new DateTime('now');
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updated_at = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -95,6 +109,30 @@ class Themes
     public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): static
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?string
+    {
+        return $this->created_by;
+    }
+
+    public function setCreatedBy(string $created_by): static
+    {
+        $this->created_by = $created_by;
 
         return $this;
     }
