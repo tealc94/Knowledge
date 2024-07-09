@@ -83,6 +83,10 @@ body{
     padding-top: 10px;
     margin: auto;
 }
+.container-cursus{
+    width: 900px;
+    margin: 0 auto;
+}
 .btn-right{
     padding-right: 10px;
     padding-bottom: 2px;

@@ -46,7 +46,7 @@ security:
         #- { path: ^/lesson/\d+$, roles: IS_AUTHENTICATED_ANONYMOUSLY }        
         - { path: ^/home, roles: ROLE_USER }
         #- { path: ^/cart, roles: ROLE_USER }
-        
+        - { path: ^/detail, roles: ROLE_USER }
         
 
 when@test:
