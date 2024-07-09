@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du cours{% endblock %}
+
+{% block body %}
+
+<div class="container-cursus">
+    <h1>Détail du cursus</h1>
+    <h2>{{ cursus.NameCursus }}</h2>
+    <pre>{{ fileContent }}</pre>
+
+    <a href="{{ path('app_home') }}" class="btn btn-primary">Valider mon cursus</a>
+</div>
+{% endblock %}

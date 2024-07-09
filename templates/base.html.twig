@@ -9,6 +9,8 @@
         {% block stylesheets %}
         {% endblock %}
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/YSnZ3e1DI0yewE1pSHF5fdKt1fqF5h5t99W45p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-Vop6zE65gKtQ5x0qE24tb64f7Pb8lKjdxv0sR+ugLjmqkZLf4TpXc+xR4czd8STP" crossorigin="anonymous"></script>
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
@@ -64,8 +66,9 @@
                     Bonjour {{ app.user.username }}
                 </div>
             {% endif %}
-        </div>
+        </div>        
 
-        {% block body %}{% endblock %}
+        {% block body %}{% endblock %}        
+        
     </body>
 </html>

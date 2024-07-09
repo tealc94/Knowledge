@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class LessonsCrudController extends AbstractCrudController
 {
@@ -30,11 +31,20 @@ class LessonsCrudController extends AbstractCrudController
             IdField::new('id')
                 ->onlyOnIndex(),
             AssociationField::new('idNameCursus')
-                ->setLabel('Cursus'),
+                ->setLabel('Cursus')
+                ->setRequired(true),
             TextField::new('name_lesson')
-                ->setLabel('Titres'),
+                ->setLabel('Titres')
+                ->setRequired(true),
             TextField::new('price')
-                ->setLabel('Tarifs'),
+                ->setLabel('Tarifs')
+                ->setRequired(true),
+            TextField::new('fichierFile')
+                ->setFormType(VichFileType::class)
+                ->setRequired(true)
+                ->onlyOnForms(),
+            TextField::new('fichiers')
+                ->onlyOnIndex(),
             DateTimeField::new('created_at')
                 ->setlabel('Date de création')
                 ->setFormat('dd MMMM yyyy HH:mm:ss')

@@ -28,7 +28,8 @@ class ThemesCrudController extends AbstractCrudController
             IdField::new('id')
                 ->onlyOnIndex(),
             TextField::new('name_theme')
-                ->setLabel('Titre'),
+                ->setLabel('Titre')
+                ->setRequired(true),
             DateTimeField::new('created_at')
                 ->setLabel('Date de création')
                 ->setFormat('dd MMMM yyyy HH:mm:ss')

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du cours{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Détail de la leçon</h1>
+    <h2>{{ lesson.NameLesson }}</h2>
+    <pre>{{ file(lesson.getFileName()) }}</pre>
+
+    <a href=""{{ path('app_home') }} class="btn btn-primary">Valider ma leçon</&>
+</div>
+{% endblock %}

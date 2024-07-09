@@ -13,8 +13,17 @@
                     <div class="card mb-3">
                         <div class="card-body"> 
                             <p>{{ lesson.NameLesson }}</p>
-                            <p>Tarif :{{ lesson.price }}€</p>
+                            <p>Tarif :{{ lesson.price }}€</p>                            
                             {% if is_granted('ROLE_USER') %}
+
+                                {#------#}
+                                                                     
+
+                                <a href="{{ path('app_detail_lesson', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Visualiser le cours</a>
+
+
+                                {#------#}
+
                                 <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
                             {% endif %}
                         </div>

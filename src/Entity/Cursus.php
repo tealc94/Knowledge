@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: CursusRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class Cursus
 {
     #[ORM\Id]
@@ -38,6 +41,12 @@ class Cursus
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\Column(length: 255, type: 'string')]
+    private ?string $fichiers = null;
+
+    #[Vich\UploadableField(mapping: 'cursus_files', fileNameProperty: 'fichiers')]
+    private ?File $fichierFile = null;
 
     public function __construct()
     {
@@ -150,5 +159,30 @@ class Cursus
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getFichiers(): ?string
+    {
+        return $this->fichiers;
+    }
+
+    public function setFichiers(string $fichiers): static
+    {
+        $this->fichiers = $fichiers;
+
+        return $this;
+    }  
+    
+    public function getFichierFile(): ?File
+    {
+        return $this->fichierFile;
+    }
+
+    public function setFichierFile(?File $fichierFile = null): void
+    {
+        $this->fichierFile = $fichierFile; 
+        if(null !== $fichierFile){
+            $this->updated_at = new \DateTimeImmutable();
+        }        
     }
 }
