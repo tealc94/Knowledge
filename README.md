@@ -1,10 +1,5 @@
-# E-Learninh Knowledge
+# E-Learning Knowledge
 
-## Récupération de la base de donnée
-```
-?????
-
-```
 ## Documentation
 ```
 Documentation PDF de l'application dans le dossier Documentation
@@ -12,7 +7,12 @@ Documentation PDF de l'application dans le dossier Documentation
 ```
 ## Récupération du dépôt Github
 ```
-git clone https://github.com/tealc94/stubborn.git
+Site hébergé sur AlawaysData
+url : ?????
+```
+## Récupération du dépôt Github
+```
+git clone https://github.com/tealc94/Knowledge.git
 
 S'assurer d'être dans le dossier knowledge
 Installer les dépendances avec la commande : composer install
@@ -23,16 +23,10 @@ Installer les dépendances avec la commande : composer install
 symfony server:start
 
 ```
-## Lancer le consommateur Messenger pour traiter les messages de manière asynchrone
+## Adminsitrateur
 ```
-php bin/console messenger:consume async -vv
-J'utilise Mailtrap pour capturer les mails pour les tests
-
-```
-## Back-Office
-```
-Administrateur crée pour la gestion des produits
-id : admin
+Profil Administrateur crée pour la gestion des Thèmes, Cursus et Lessons
+id : jdoe@gmail.com
 mdp: 1234
 
 ```
