@@ -27,8 +27,8 @@ class Cursus
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $Price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cursuses', cascade: ['remove'])]
-    private ?Themes $idNameTheme = null;
+    #[ORM\ManyToOne(inversedBy: 'cursuses', cascade: ['remove'], fetch:"EAGER")]
+    private ?Themes $theme = null;
 
     /**
      * @var Collection<int, Lessons>
@@ -48,11 +48,18 @@ class Cursus
     #[Vich\UploadableField(mapping: 'cursus_files', fileNameProperty: 'fichiers')]
     private ?File $fichierFile = null;
 
+    /**
+     * @var Collection<int, Purchase>
+     */
+    #[ORM\OneToMany(targetEntity: Purchase::class, mappedBy: 'cursus')]
+    private Collection $purchases;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
         $this->created_at = new DateTime('now');
         $this->updated_at = new DateTime('now');
+        $this->purchases = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -90,14 +97,14 @@ class Cursus
         return $this;
     }
 
-    public function getIdNameTheme(): ?Themes
+    public function getTheme(): ?Themes
     {
-        return $this->idNameTheme;
+        return $this->theme;
     }
 
-    public function setIdNameTheme(?Themes $idNameTheme): static
+    public function setTheme(?Themes $theme): static
     {
-        $this->idNameTheme = $idNameTheme;
+        $this->theme = $theme;
 
         return $this;
     }
@@ -184,5 +191,35 @@ class Cursus
         if(null !== $fichierFile){
             $this->updated_at = new \DateTimeImmutable();
         }        
+    }
+
+    /**
+     * @return Collection<int, Purchase>
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): static
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases->add($purchase);
+            $purchase->setCursus($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): static
+    {
+        if ($this->purchases->removeElement($purchase)) {
+            // set the owning side to null (unless already changed)
+            if ($purchase->getCursus() === $this) {
+                $purchase->setCursus(null);
+            }
+        }
+
+        return $this;
     }
 }

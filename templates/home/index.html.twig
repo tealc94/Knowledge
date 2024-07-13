@@ -17,14 +17,18 @@
                                     <p>Tarif : {{ oneCursus.Price }} €</p>                                
                                     <a href="{{ path('app_lesson_detail', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Découvrir</a>
                                     {% if is_granted('ROLE_USER') %}
-                                    {#------#}
-                                                                     
-
-                                        <a href="{{ path('app_detail_cursus', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Visualiser le cours</a>
-
-
-                                    {#------#}
-                                        <a href="{{ path('app_cart', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Panier</a>
+                                        {# display buttons according to purchase #}
+                                        {% set purchased = false %} 
+                                        {% for purchase in app.user.purchases %}                                                                                                         
+                                            {% if purchase.cursus.id == oneCursus.id %} 
+                                                {% set purchased = true %}                                                                
+                                            {% endif %}
+                                        {% endfor %} 
+                                        {% if purchased %}                                                                                   
+                                            <a href="{{ path('app_detail_cursus', {'cursus': oneCursus.id}) }}" class="btn btn-info">Visualiser le cours</a>
+                                        {% else %} 
+                                            <a href="{{ path('app_cart', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Panier</a>                              
+                                        {% endif %}
                                     {% endif %}
                                 </div>                       
                             </div>    

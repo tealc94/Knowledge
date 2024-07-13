@@ -2,27 +2,32 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Stripe;
+use App\Entity\Purchase;
 use Stripe\Checkout\Session;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ThemesRepository;
+use App\Repository\CursusRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private ThemesRepository $themeRepo;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ThemesRepository $themeRepo)
     {
-        $this->em=$em;        
+        $this->em=$em;  
+        $this->themeRepo=$themeRepo;      
     }
 
     #[Route('/cart', name: 'app_cart')]
     public function index(): Response
-    {
+    {       
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
         ]);
@@ -89,11 +94,61 @@ class CartController extends AbstractController
     }
 
     #[Route('/payment/success', name: 'app_success')]
-    public function success(SessionInterface $session): Response
+    public function success(SessionInterface $session, CursusRepository $cursusRepository): Response
     {
-        //empty the basket
-        $session->remove('cart');
-        return $this->render("payment/success.html.twig");
+        ///
+        $user = $this->getUser();
+        if(!$user){
+            throw $this->createAccessDeniedException('Vous devez être connecté pour effectuer un achat.');
+        }
+
+        try {
+            $this->em->beginTransaction();       
+
+            $items = $session->get('cart', []);
+            $date = new \DateTime();
+
+            foreach($items as $item){
+               
+                if(isset($item['cursus'])){                    
+                    
+                    /*if (!$this->em->contains($item['cursus'])) {
+                        $this->em->persist($item['cursus']);
+                    } */   
+                         
+                    $purchase = new Purchase();
+                    $purchase->setUser($user);
+                    $cursus=$cursusRepository->find($item['cursus']->getId());
+                    if (!$this->em->contains($cursus)) {
+                        $this->em->persist($cursus);
+                    }
+                    //dd($cursus);
+                    /*if(!$this->em->contains()){
+
+                    }*/
+                    //$theme=$this->themeRepo->findOneBy(['id'=> $item['cursus']->getTheme()]);
+                    //$item['cursus']->setTheme($theme);
+                    $purchase->setCursus($cursus);
+                    $purchase->setPurchaseDate($date);  
+                         
+                    //dd($purchase);             
+                    $this->em->persist($purchase);       
+                }                
+            }
+            
+            $this->em->flush();
+            $this->em->commit();
+
+
+            ////
+
+            //empty the basket
+            $session->remove('cart');
+            return $this->render("payment/success.html.twig");
+            } catch (\Exception $e) {
+                $this->em->rollback();
+                throw $e;
+            }
     }
 
     #[Route('/payment/cancel', name: 'cancel')]

@@ -23,3 +23,7 @@ payment_success:
 payment_cancel:
     path: /payment/cancel
     controller: App\Controller\PaymentController::cancel
+
+app_certificat:
+    path: /certificat/{id}
+    controller: App\Controller\CertificatController::certificat

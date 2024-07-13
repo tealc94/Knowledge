@@ -6,17 +6,17 @@ use App\Entity\Cursus;
 use App\Entity\Lessons;
 use App\Repository\ThemesRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
     public function index(ThemesRepository $themesRepository): Response
-    {
+    {   
         $themes = $themesRepository->ListThemes();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
@@ -61,7 +61,7 @@ class HomeController extends AbstractController
             $items[]= ['cursus' => $cursus, 'lesson' => null];  
         }
 
-        $session->set('cart', $items);
+        $session->set('cart', $items);        
         return $this->render('cart/index.html.twig', [
             'items' => $items,
         ]);        
