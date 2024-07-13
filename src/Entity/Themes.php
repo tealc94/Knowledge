@@ -24,7 +24,7 @@ class Themes
     /**
      * @var Collection<int, Cursus>
      */
-    #[ORM\OneToMany(targetEntity: Cursus::class, mappedBy: 'idNameTheme')]
+    #[ORM\OneToMany(targetEntity: Cursus::class, mappedBy: 'theme')]
     private Collection $cursuses;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -32,10 +32,7 @@ class Themes
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $created_by = null;
-    
+ 
     public function __construct()
     {
         $this->cursuses = new ArrayCollection();
@@ -78,7 +75,7 @@ class Themes
     {
         if (!$this->cursuses->contains($cursus)) {
             $this->cursuses->add($cursus);
-            $cursus->setIdNameTheme($this);
+            $cursus->setTheme($this);
         }
 
         return $this;
@@ -88,8 +85,8 @@ class Themes
     {
         if ($this->cursuses->removeElement($cursus)) {
             // set the owning side to null (unless already changed)
-            if ($cursus->getIdNameTheme() === $this) {
-                $cursus->setIdNameTheme(null);
+            if ($cursus->getTheme() === $this) {
+                $cursus->setTheme(null);
             }
         }
 
@@ -123,17 +120,5 @@ class Themes
         $this->updated_at = $updated_at;
 
         return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->created_by;
-    }
-
-    public function setCreatedBy(string $created_by): static
-    {
-        $this->created_by = $created_by;
-
-        return $this;
-    }
+    }    
 }

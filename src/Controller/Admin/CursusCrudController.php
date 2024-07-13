@@ -26,7 +26,7 @@ class CursusCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->onlyOnIndex(),
-            AssociationField::new('idNameTheme')
+            AssociationField::new('theme')
                 ->setLabel('Thèmes')
                 ->setRequired(true),
             TextField::new('name_cursus',)
