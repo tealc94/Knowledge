@@ -7,6 +7,7 @@ use App\Entity\Purchase;
 use Stripe\Checkout\Session;
 use App\Repository\ThemesRepository;
 use App\Repository\CursusRepository;
+use App\Repository\LessonsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -94,9 +95,8 @@ class CartController extends AbstractController
     }
 
     #[Route('/payment/success', name: 'app_success')]
-    public function success(SessionInterface $session, CursusRepository $cursusRepository): Response
+    public function success(SessionInterface $session, CursusRepository $cursusRepository, LessonsRepository $lessonsRepository): Response
     {
-        ///
         $user = $this->getUser();
         if(!$user){
             throw $this->createAccessDeniedException('Vous devez être connecté pour effectuer un achat.');
@@ -109,46 +109,46 @@ class CartController extends AbstractController
             $date = new \DateTime();
 
             foreach($items as $item){
-               
-                if(isset($item['cursus'])){                    
-                    
-                    /*if (!$this->em->contains($item['cursus'])) {
-                        $this->em->persist($item['cursus']);
-                    } */   
-                         
-                    $purchase = new Purchase();
-                    $purchase->setUser($user);
+                $purchase = new Purchase();
+                $purchase->setUser($user);
+                $purchase->setPurchaseDate($date);
+
+                // purchase a curus
+                if(isset($item['cursus'])){ 
+                    //$purchase = new Purchase();  //
+                    //$purchase->setUser($user);  //
                     $cursus=$cursusRepository->find($item['cursus']->getId());
                     if (!$this->em->contains($cursus)) {
                         $this->em->persist($cursus);
-                    }
-                    //dd($cursus);
-                    /*if(!$this->em->contains()){
-
-                    }*/
-                    //$theme=$this->themeRepo->findOneBy(['id'=> $item['cursus']->getTheme()]);
-                    //$item['cursus']->setTheme($theme);
+                    }   
                     $purchase->setCursus($cursus);
-                    $purchase->setPurchaseDate($date);  
-                         
-                    //dd($purchase);             
-                    $this->em->persist($purchase);       
-                }                
+                    //$purchase->setPurchaseDate($date);  //                            
+                    //$this->em->persist($purchase);       
+                }
+
+                // purchase a lesson
+                if(isset($item['lesson'])){ 
+                    $lesson=$lessonsRepository->find($item['lesson']->getId());
+                    if (!$this->em->contains($lesson)) {
+                        $this->em->persist($lesson);
+                    }                 
+                    $purchase->setLesson($lesson); 
+                    dd($purchase);     
+                }
+
+                $this->em->persist($purchase); 
             }
             
             $this->em->flush();
             $this->em->commit();
 
-
-            ////
-
             //empty the basket
             $session->remove('cart');
             return $this->render("payment/success.html.twig");
-            } catch (\Exception $e) {
-                $this->em->rollback();
-                throw $e;
-            }
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw $e;
+        }
     }
 
     #[Route('/payment/cancel', name: 'cancel')]

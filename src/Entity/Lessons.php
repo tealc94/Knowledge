@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\LessonsRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -25,7 +27,7 @@ class Lessons
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $Price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\ManyToOne(targetEntity: Cursus::class, inversedBy: 'lessons')]
     private ?Cursus $idNameCursus = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -40,10 +42,17 @@ class Lessons
     #[Vich\UploadableField(mapping: 'cursus_files', fileNameProperty: 'fichiers')]
     private ?File $fichierFile = null;
 
+    /**
+     * @var Collection<int, Purchase>
+     */
+    #[ORM\OneToMany(targetEntity: Purchase::class, mappedBy: 'lesson')]
+    private Collection $purchases;
+
     public function __construct()
     {
         $this->created_at = new DateTime('now');
         $this->updated_at = new DateTime('now');
+        $this->purchases = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -145,5 +154,35 @@ class Lessons
         if(null !== $fichierFile){
             $this->updated_at = new \DateTimeImmutable();
         }        
+    }
+
+    /**
+     * @return Collection<int, Purchase>
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): static
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases->add($purchase);
+            $purchase->setLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): static
+    {
+        if ($this->purchases->removeElement($purchase)) {
+            // set the owning side to null (unless already changed)
+            if ($purchase->getLesson() === $this) {
+                $purchase->setLesson(null);
+            }
+        }
+
+        return $this;
     }
 }

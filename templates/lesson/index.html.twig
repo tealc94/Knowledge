@@ -23,6 +23,10 @@
 
 
                                 {#------#}
+                                
+                                {% for purchase in app.user.purchases %}
+                                   {#{ dump(purchase.lesson.id) }#}
+                                {% endfor %}
 
                                 <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
                             {% endif %}
