@@ -28,7 +28,7 @@ class Lessons
     private ?string $Price = null;
 
     #[ORM\ManyToOne(targetEntity: Cursus::class, inversedBy: 'lessons')]
-    private ?Cursus $idNameCursus = null;
+    private ?Cursus $cursus = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -90,14 +90,14 @@ class Lessons
         return $this;
     }
 
-    public function getIdNameCursus(): ?Cursus
+    public function getCursus(): ?Cursus
     {
-        return $this->idNameCursus;
+        return $this->cursus;
     }
 
-    public function setIdNameCursus(?Cursus $idNameCursus): static
+    public function setCursus(?Cursus $cursus): static
     {
-        $this->idNameCursus = $idNameCursus;
+        $this->cursus = $cursus;
 
         return $this;
     }  

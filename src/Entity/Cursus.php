@@ -27,13 +27,13 @@ class Cursus
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $Price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cursuses', cascade: ['remove'], fetch:"EAGER")]
+    #[ORM\ManyToOne(inversedBy: 'cursus', cascade: ['remove'], fetch:"EAGER")]
     private ?Themes $theme = null;
 
     /**
      * @var Collection<int, Lessons>
      */
-    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idNameCursus', cascade: ['remove'], fetch:"EAGER")]
+    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'cursus', cascade: ['remove'], fetch:"EAGER")]
     private Collection $lessons;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -121,7 +121,7 @@ class Cursus
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons->add($lesson);
-            $lesson->setIdNameCursus($this);
+            $lesson->setCursus($this);
         }
 
         return $this;
@@ -131,8 +131,8 @@ class Cursus
     {
         if ($this->lessons->removeElement($lesson)) {
             // set the owning side to null (unless already changed)
-            if ($lesson->getIdNameCursus() === $this) {
-                $lesson->setIdNameCursus(null);
+            if ($lesson->getCursus() === $this) {
+                $lesson->setCursus(null);
             }
         }
 

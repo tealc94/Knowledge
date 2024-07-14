@@ -132,8 +132,7 @@ class CartController extends AbstractController
                     if (!$this->em->contains($lesson)) {
                         $this->em->persist($lesson);
                     }                 
-                    $purchase->setLesson($lesson); 
-                    dd($purchase);     
+                    $purchase->setLesson($lesson);      
                 }
 
                 $this->em->persist($purchase); 

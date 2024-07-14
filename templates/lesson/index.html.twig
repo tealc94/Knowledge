@@ -16,19 +16,27 @@
                             <p>Tarif :{{ lesson.price }}€</p>                            
                             {% if is_granted('ROLE_USER') %}
 
-                                {#------#}
+
                                                                      
 
                                 <a href="{{ path('app_detail_lesson', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Visualiser le cours</a>
 
 
-                                {#------#}
-                                
+ 
+                                {% set purchased = false %}                                
                                 {% for purchase in app.user.purchases %}
-                                   {#{ dump(purchase.lesson.id) }#}
+                                    {% if purchase.cursus.id == cursus.id %}
+                                        {% set purchased = true %}
+                                    {% endif %}
                                 {% endfor %}
 
-                                <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
+                                {% if purchased %}
+
+                                {% else %}
+                                    <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
+                                {% endif %}
+
+                                
                             {% endif %}
                         </div>
                     </div>

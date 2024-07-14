@@ -19,7 +19,7 @@ class ThemesRepository extends ServiceEntityRepository
     public function ListThemes()
     {
         return $this->createQueryBuilder('t')
-            ->leftJoin('t.cursuses', 'c')
+            ->leftJoin('t.cursus', 'c')
             ->addSelect('c')
             ->getQuery()
             ->getResult();
