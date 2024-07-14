@@ -20,7 +20,7 @@
                                         {# display buttons according to purchase #}
                                         {% set purchased = false %} 
                                         {% for purchase in app.user.purchases %}                                                                                                         
-                                            {% if purchase.cursus.id == oneCursus.id %} 
+                                            {% if purchase.cursus.id == oneCursus.id and purchase.lesson == null %} 
                                                 {% set purchased = true %}                                                                
                                             {% endif %}
                                         {% endfor %} 

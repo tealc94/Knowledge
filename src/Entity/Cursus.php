@@ -33,7 +33,7 @@ class Cursus
     /**
      * @var Collection<int, Lessons>
      */
-    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idNameCursus', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'idNameCursus', cascade: ['remove'], fetch:"EAGER")]
     private Collection $lessons;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

@@ -28,6 +28,9 @@ class Purchase
     #[ORM\Column]
     private ?bool $cursusValidate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'purchases')]
+    private ?Lessons $lesson = null;
+
     public function __construct()
     {
         $this->cursusValidate = false;
@@ -82,6 +85,18 @@ class Purchase
     public function setCursusValidate(bool $cursusValidate): static
     {
         $this->cursusValidate = $cursusValidate;
+
+        return $this;
+    }
+
+    public function getLesson(): ?Lessons
+    {
+        return $this->lesson;
+    }
+
+    public function setLesson(?Lessons $lesson): static
+    {
+        $this->lesson = $lesson;
 
         return $this;
     }
