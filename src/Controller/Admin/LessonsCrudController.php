@@ -30,7 +30,7 @@ class LessonsCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->onlyOnIndex(),
-            AssociationField::new('idNameCursus')
+            AssociationField::new('cursus')
                 ->setLabel('Cursus')
                 ->setRequired(true),
             TextField::new('name_lesson')

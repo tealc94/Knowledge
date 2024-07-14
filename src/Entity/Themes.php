@@ -25,7 +25,7 @@ class Themes
      * @var Collection<int, Cursus>
      */
     #[ORM\OneToMany(targetEntity: Cursus::class, mappedBy: 'theme')]
-    private Collection $cursuses;
+    private Collection $cursus;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -35,7 +35,7 @@ class Themes
  
     public function __construct()
     {
-        $this->cursuses = new ArrayCollection();
+        $this->cursus = new ArrayCollection();
         $this->created_at = new DateTime('now');
         $this->updated_at = new DateTime('now');
     }
@@ -66,15 +66,15 @@ class Themes
     /**
      * @return Collection<int, Cursus>
      */
-    public function getCursuses(): Collection
+    public function getCursus(): Collection
     {
-        return $this->cursuses;
+        return $this->cursus;
     }
 
     public function addCursus(Cursus $cursus): static
     {
-        if (!$this->cursuses->contains($cursus)) {
-            $this->cursuses->add($cursus);
+        if (!$this->cursus->contains($cursus)) {
+            $this->cursus->add($cursus);
             $cursus->setTheme($this);
         }
 
@@ -83,7 +83,7 @@ class Themes
 
     public function removeCursus(Cursus $cursus): static
     {
-        if ($this->cursuses->removeElement($cursus)) {
+        if ($this->cursus->removeElement($cursus)) {
             // set the owning side to null (unless already changed)
             if ($cursus->getTheme() === $this) {
                 $cursus->setTheme(null);

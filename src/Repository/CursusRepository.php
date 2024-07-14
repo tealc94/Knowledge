@@ -18,6 +18,6 @@ class CursusRepository extends ServiceEntityRepository
    
     public function ListCursus()
     {
-        return $this->findAll();        
+        return $this->findAll();   
     }    
 }
