@@ -19,12 +19,15 @@
                 <div>             
                     {{ form_label(registrationForm.username, "Nom :", {'label_attr':{'class': 'form-label'}}) }}
                     {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.username) }}
 
                     {{ form_label(registrationForm.email, "Adresse mail :", {'label_attr':{'class': 'form-label'}}) }}
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.email) }}
 
                     {{ form_label(registrationForm.plainPassword, "Mot de passe :", {'label_attr':{'class': 'form-label'}}) }}
                     {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
                 </div>       
                 <div class="card-body">
                     <button type="submit" class="btn btn-primary">Créer un compte</button>

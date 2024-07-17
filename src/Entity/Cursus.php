@@ -53,7 +53,12 @@ class Cursus
      */
     #[ORM\OneToMany(targetEntity: Purchase::class, mappedBy: 'cursus')]
     private Collection $purchases;
-
+    
+    /**
+     * __construct
+     * Constructor for initializing collections and dates
+     * @return void
+     */
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
@@ -62,7 +67,12 @@ class Cursus
         $this->purchases = new ArrayCollection();
     }
 
-    #[ORM\PreUpdate]
+    #[ORM\PreUpdate]    
+    /**
+     * onPreUpdate
+     * Updates `updated_at` property before entity update
+     * @return void
+     */
     public function onPreUpdate():void
     {
         $this->updated_at = new DateTime('now');
@@ -116,7 +126,14 @@ class Cursus
     {
         return $this->lessons;
     }
-
+    
+    /**
+     * addLesson
+     * Adds a lesson to the lesson collection
+     * 
+     * @param  mixed $lesson The lesson to add to the collection
+     * @return static The current standard for smooth method chaining.
+     */
     public function addLesson(Lessons $lesson): static
     {
         if (!$this->lessons->contains($lesson)) {
@@ -126,7 +143,14 @@ class Cursus
 
         return $this;
     }
-
+    
+    /**
+     * removeLesson
+     * Delete a lesson to the lesson collection
+     * 
+     * @param  mixed $lesson The lesson to add to the collection
+     * @return static The current standard for smooth method chaining.
+     */
     public function removeLesson(Lessons $lesson): static
     {
         if ($this->lessons->removeElement($lesson)) {
@@ -184,7 +208,14 @@ class Cursus
     {
         return $this->fichierFile;
     }
-
+    
+    /**
+     * setFichierFile
+     * Defines the file and updates the modification date if a file is supplied
+     *
+     * @param  mixed $fichierFile The file to associate with the entity. Can be null
+     * @return void
+     */
     public function setFichierFile(?File $fichierFile = null): void
     {
         $this->fichierFile = $fichierFile; 
@@ -200,7 +231,14 @@ class Cursus
     {
         return $this->purchases;
     }
-
+    
+    /**
+     * addPurchase
+     * Adds a purchase to the purchase collection
+     *
+     * @param  mixed $purchase The purchase to add to your collection
+     * @return static The same instance to enable method chaining
+     */
     public function addPurchase(Purchase $purchase): static
     {
         if (!$this->purchases->contains($purchase)) {
