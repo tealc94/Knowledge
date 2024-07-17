@@ -11,26 +11,34 @@
 <div class="example-wrapper">
 
     {% set hasCertification = false %}    
-    <table>
-    
+    <table>   
+        {# curriculum display #} 
         {% for purchase in purchases %}        
-            {% if purchase.cursusValidate == true %}
+            {% if purchase.cursusValidate == true and purchase.lesson == null %}
                 {% set hasCertification = true %}
                 {% if loop.first %}
                     <h1>Congratulations</h1>
                 {% endif %}
-                <tr>
-                    <td><p>{{ purchase.cursus.NameCursus }}</p></td>
-                    <td><img src="{{ asset('/images/certification.png') }}" alt="certification"></td>
-                </tr>
-                                
+                    <tr>
+                        <td><p>{{ purchase.cursus.NameCursus }}</p></td>
+                        <td><img src="{{ asset('/images/certification.png') }}" alt="certification"></td>
+                    </tr>                                
             {% endif %}
+        {% endfor %}
+
+        {# lessons display #}
+        {% for data in cursus_data %}                        
+            {% if data.total_lessons == data.validated_lessons_count %}
+                <tr>
+                    <td><p>{{ data.cursus.NameCursus }}</p></td>
+                    <td><img src="{{ asset('/images/certification.png') }}" alt="certification"></td>
+                </tr>      
+            {% endif %}            
         {% endfor %}
     </table>
 
     {% if not hasCertification %}
         <p>Dommage, vous n'avez pas encore obtenu de certification.</p>              
-    {% endif %}      
-
+    {% endif %}   
 </div>
 {% endblock %}

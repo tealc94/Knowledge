@@ -71,7 +71,6 @@ class RegistrationController extends AbstractController
             throw new \Exception('Utilisateur non trouvé.');
         }
 
-
         // validate email confirmation link, sets Uaser::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);

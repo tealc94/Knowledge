@@ -14,29 +14,26 @@
                         <div class="card-body"> 
                             <p>{{ lesson.NameLesson }}</p>
                             <p>Tarif :{{ lesson.price }}€</p>                            
-                            {% if is_granted('ROLE_USER') %}
-
-
-                                                                     
-
-                                <a href="{{ path('app_detail_lesson', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Visualiser le cours</a>
-
-
+                            {% if is_granted('ROLE_USER') %}                        
  
                                 {% set purchased = false %}                                
                                 {% for purchase in app.user.purchases %}
                                     {% if purchase.cursus.id == cursus.id %}
-                                        {% set purchased = true %}
+                                  
+                                        {% if purchase.lesson == null %}
+
+                                        {% elseif purchase.lesson.id == lesson.id %}
+                                            {% set purchased = true %}  
+                                        {% endif %}                                           
                                     {% endif %}
                                 {% endfor %}
 
                                 {% if purchased %}
-
+                                    <a href="{{ path('app_detail_lesson', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Visualiser le cours</a>
                                 {% else %}
                                     <a href="{{ path('app_cart', {'cursus': cursus.id, 'lesson': lesson.id}) }}" class="btn btn-primary">Panier</a>
                                 {% endif %}
-
-                                
+                                                                
                             {% endif %}
                         </div>
                     </div>

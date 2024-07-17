@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Validation de cerification{% endblock %}
+{% block title %}Validation de la leçon{% endblock %}
 
 {% block body %}
 <style>
@@ -10,7 +10,7 @@
 
 <div class="example-wrapper">
     <h1>Félicitation</h1>
-    <p>Vous avez obtenu votre cerification pour ce cursus.</p>
-    <a href={{ path('app_home') }}>Retour page d'accueil</a>
+    <p>Vous avez validé cette leçon.</p>
+    <a href="{{ path('app_home') }}">Retour page d'accueil</a>
 </div>
 {% endblock %}

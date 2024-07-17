@@ -15,6 +15,7 @@ class LessonController extends AbstractController
     public function detail(Cursus $cursus): Response
     {
         $lessons = $cursus->getLessons();
+ 
 
         return $this->render('lesson/index.html.twig', [
             'cursus' => $cursus,

@@ -19,15 +19,25 @@
                                     {% if is_granted('ROLE_USER') %}
                                         {# display buttons according to purchase #}
                                         {% set purchased = false %} 
-                                        {% for purchase in app.user.purchases %}                                                                                                         
-                                            {% if purchase.cursus.id == oneCursus.id and purchase.lesson == null %} 
-                                                {% set purchased = true %}                                                                
+                                        {% set purchaseLesson = false %}
+                                        {% for purchase in app.user.purchases %}              
+                                            {% if purchase.cursus.id == oneCursus.id and purchase.cursusValidate and purchase.lesson == null %}                                             
+                                                {% set purchased = true %}
+                                                {% set purchaseLesson = false %}                                                  
+                                            {% elseif purchase.cursus.id == oneCursus.id and purchase.cursusValidate and purchase.lesson != null %}  
+                                                {% set purchased = true %}
+                                                {% set purchaseLesson = true %} 
+                                            {% else %}    
+                                                                                    
                                             {% endif %}
                                         {% endfor %} 
-                                        {% if purchased %}                                                                                   
-                                            <a href="{{ path('app_detail_cursus', {'cursus': oneCursus.id}) }}" class="btn btn-info">Visualiser le cours</a>
+
+                                        {% if purchased and purchaseLesson == false %}                                                                                   
+                                            <a href="{{ path('app_detail_cursus', {'cursus': oneCursus.id}) }}" class="btn btn-info">Visualiser le cours</a>                                        
+                                        {% elseif purchased and purchaseLesson %}
+
                                         {% else %} 
-                                            <a href="{{ path('app_cart', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Panier</a>                              
+                                            <a href="{{ path('app_cart', {'cursus': oneCursus.id}) }}" class="btn btn-primary">Panier</a>                      
                                         {% endif %}
                                     {% endif %}
                                 </div>                       

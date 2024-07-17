@@ -222,4 +222,9 @@ class Cursus
 
         return $this;
     }
+
+    public function countLessons(): int
+    {
+        return $this->lessons->count();
+    }
 }

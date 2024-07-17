@@ -46,6 +46,8 @@ security:
         - { path: ^/list/certificat, roles: ROLE_USER }
         - { path: ^/certificat, roles: ROLE_USER }
         - { path: ^/detail, roles: ROLE_USER }
+        - { path: ^/cart, roles: ROLE_USER }
+        - { path: ^/payment, roles: ROLE_USER }
         
 
 when@test:

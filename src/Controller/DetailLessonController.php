@@ -24,7 +24,7 @@ class DetailLessonController extends AbstractController
 
         $fileContent = file_get_contents($filePath);
 
-        return $this->render('detail_cursus/index.html.twig', [
+        return $this->render('detail_lesson/index.html.twig', [
             'cursus' => $cursus,
             'lesson' => $lesson,
             'fileContent' =>$fileContent,

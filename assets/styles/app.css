@@ -83,7 +83,8 @@ body{
     padding-top: 10px;
     margin: auto;
 }
-.container-cursus{
+.container-cursus,
+.container-lesson{
     width: 900px;
     margin: 0 auto;
 }

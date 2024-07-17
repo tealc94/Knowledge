@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\Cursus;
+use App\Entity\Lessons;
 use App\Entity\Purchase;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CertificatController extends AbstractController
+class CertificatLessonController extends AbstractController
 {
-    #[Route('/certificat/{id}', name: 'app_certificat')]
-    public function certificat(int $id, EntityManagerInterface $em): Response
-    {
-        $cursus = $em->getRepository(Cursus::class)->find($id);
+    #[Route('/certificat/{id}', name: 'app_certificat_lesson')]
+    public function certificatLesson(int $id, EntityManagerInterface $em): Response
+    {   
+        $lesson = $em->getRepository(Lessons::class)->find($id);
 
-        $purchases = $em->getRepository(Purchase::class)->findBy(['cursus' => $cursus]);
+        $purchases = $em->getRepository(Purchase::class)->findBy(['lesson' => $lesson]);
 
         foreach($purchases as $purchase){
             $purchase->setCursusValidate(true);
@@ -25,7 +25,7 @@ class CertificatController extends AbstractController
 
         $em->flush();
         
-        return $this->render('certificat/certificat.html.twig', [
+        return $this->render('certificat/validate.html.twig', [
             'controller_name' => 'CertificatController',
         ]);
     }    
