@@ -25,5 +25,9 @@ payment_cancel:
     controller: App\Controller\PaymentController::cancel
 
 app_certificat:
-    path: /certificat/{id}
+    path: /certificatCursus/{id}
     controller: App\Controller\CertificatController::certificat
+
+ app_certificat_lesson:
+    path: /certificatLesson/{id}
+    controller: App\Controller\CertificatLessonController::certificatLesson

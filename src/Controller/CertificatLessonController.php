@@ -11,9 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CertificatLessonController extends AbstractController
 {
-    #[Route('/certificat/{id}', name: 'app_certificat_lesson')]
+    #[Route('/certificatLesson/{id}', name: 'app_certificat_lesson')]
     public function certificatLesson(int $id, EntityManagerInterface $em): Response
-    {   
+    {           
         $lesson = $em->getRepository(Lessons::class)->find($id);
 
         $purchases = $em->getRepository(Purchase::class)->findBy(['lesson' => $lesson]);
