@@ -8,7 +8,7 @@ Documentation PDF de l'application dans le dossier Documentation
 ## Récupération du dépôt Github
 ```
 Site hébergé sur Hostinger
-url : ?????
+url : http://srv564566.hstgr.cloud/
 ```
 ## Récupération du dépôt Github
 ```
