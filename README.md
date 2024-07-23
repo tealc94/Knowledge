@@ -13,7 +13,7 @@ Base de données test dans le dossier bdd
 ## Site héberger
 ```
 Site hébergé sur Hostinger
-url : http://srv564566.hstgr.cloud/
+url : https://srv564566.hstgr.cloud/
 ```
 ## Récupération du dépôt Github
 ```
