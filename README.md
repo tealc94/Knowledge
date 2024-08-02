@@ -35,7 +35,7 @@ id : jdoe@gmail.com
 mdp: 1234
 
 Profil Testeur
-id : dupond@gmail.com.com
+id : dupond@gmail.com
 mdp: 1234
 
 ```
