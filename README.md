@@ -5,10 +5,15 @@
 Documentation PDF de l'application dans le dossier Documentation
 
 ```
-## Récupération du dépôt Github
+## Bdd
+```
+Base de données test dans le dossier bdd
+
+```
+## Site héberger
 ```
 Site hébergé sur Hostinger
-url : ?????
+url : https://srv564566.hstgr.cloud/
 ```
 ## Récupération du dépôt Github
 ```
@@ -27,6 +32,10 @@ symfony server:start
 ```
 Profil Administrateur crée pour la gestion des Thèmes, Cursus et Lessons
 id : jdoe@gmail.com
+mdp: 1234
+
+Profil Testeur
+id : dupond@gmail.com.com
 mdp: 1234
 
 ```

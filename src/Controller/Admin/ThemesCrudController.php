@@ -3,11 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Themes;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ThemesCrudController extends AbstractCrudController
 {
@@ -15,7 +15,7 @@ class ThemesCrudController extends AbstractCrudController
     {
         return Themes::class;
     }
-    
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -37,8 +37,7 @@ class ThemesCrudController extends AbstractCrudController
             DateTimeField::new('updated_at')
                 ->setLabel('Date de mise à jour')
                 ->setFormat('dd MMMM yyyy HH:mm:ss')
-                ->onlyOnIndex(),            
+                ->onlyOnIndex(),  
         ];
-    }
-    
+    }    
 }

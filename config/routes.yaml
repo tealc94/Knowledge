@@ -28,6 +28,6 @@ app_certificat:
     path: /certificatCursus/{id}
     controller: App\Controller\CertificatController::certificat
 
- app_certificat_lesson:
+app_certificat_lesson:
     path: /certificatLesson/{id}
     controller: App\Controller\CertificatLessonController::certificatLesson

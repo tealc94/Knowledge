@@ -2,8 +2,6 @@
 
 namespace App\Tests\Security;
 
-namespace App\Tests\Security;
-
 use App\Security\LoginAuthenticator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;

@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->created_at = new DateTime('now');
         $this->updated_at = new DateTime('now');
-        $this->purchases = new ArrayCollection();        
+        $this->purchases = new ArrayCollection();      
     }
 
     #[ORM\PreUpdate]
@@ -222,5 +222,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
-    }    
+    }   
 }

@@ -120,5 +120,5 @@ class Themes
         $this->updated_at = $updated_at;
 
         return $this;
-    }    
+    }
 }

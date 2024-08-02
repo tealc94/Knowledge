@@ -38,6 +38,10 @@ class CursusCrudController extends AbstractCrudController
             TextField::new('fichierFile')
                 ->setFormType(VichFileType::class)
                 ->setRequired(true)
+                ->setLabel('Fichier .txt')
+                ->setFormTypeOptions([
+                    'attr' => ['accept' => '.txt'],
+                ])
                 ->onlyOnForms(),
             TextField::new('fichiers')
                 ->onlyOnIndex(),
