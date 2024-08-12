@@ -105,3 +105,15 @@ body{
 }
 
 
+@media screen and (max-width: 900px) {
+    .container-home{
+       width: 500px;
+    }
+    .box-cursus{
+       display: block;    
+       width: 100% !important; 
+    }
+    .card-cursus{
+        width: auto;
+    }
+}
