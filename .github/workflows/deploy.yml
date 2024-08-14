@@ -26,4 +26,4 @@ jobs:
 
     - name: Deploy via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no root@82.112.240.96 "cd /var/www/html/Knowledge && git pull origin master && composer install && php bin/console cache:clear"     
+        ssh -o StrictHostKeyChecking=no root@82.112.240.96 "cd /var/www/html/Knowledge && git stash && git pull origin master && composer install && php bin/console cache:clear && git stash pop"     
