@@ -18,6 +18,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Test SSH connection
+      run: ssh -o StrictHostKeyChecking=no root@82.112.240.96 "echo SSH connection successful"
+  
+    - name: Debug SSH connection and server environment
+      run: ssh -o StrictHostKeyChecking=no root@82.112.240.96 "pwd && ls -la /var/www/html/Knowledge"  
+
     - name: Deploy via SSH
       run: |
         ssh -o StrictHostKeyChecking=no root@82.112.240.96 "cd /var/www/html/Knowledge && git pull origin main && composer install && php bin/console cache:clear"     
